@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "992544262140",
+    "firebase_url": "https://smarthome-app-master.firebaseio.com",
+    "project_id": "smarthome-app-master",
+    "storage_bucket": "smarthome-app-master.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992544262140:android:6747244cb8c7586f9c1479",
+        "android_client_info": {
+          "package_name": "com.example.smarthomeretrofit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "992544262140-256stegi8291hdhpogeojvhq1puree6a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smarthomeretrofit",
+            "certificate_hash": "92faee89ff9c1dea540d620456aa27ea6441f8f0"
+          }
+        },
+        {
+          "client_id": "992544262140-5rbv4ga314b7v9jd2rhb6g3gb9stci01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL5KakqXF7Dt1NxMykLulNysueFuVIhf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "992544262140-5rbv4ga314b7v9jd2rhb6g3gb9stci01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

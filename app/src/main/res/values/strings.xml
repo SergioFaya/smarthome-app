@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SmartHomeRetrofit</string>
+    <!-- Strings related to login -->
+
+    <!-- Buttons -->
+    <string name="login">Login</string>
+    <string name="register">Registro</string>
+
+    <!-- Fields -->
+    <string name="email_field">Email</string>
+    <string name="password_field">Contraseña</string>
+</resources>

@@ -1,0 +1,2 @@
+rootProject.name='SmartHomeRetrofit'
+include ':app'
