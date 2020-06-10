@@ -1,12 +1,22 @@
 <resources>
-    <string name="app_name">SmartHomeRetrofit</string>
+    <string name="app_name">SmartHome</string>
     <!-- Strings related to login -->
+
+    <!-- Labels -->
+    <string name="app_title">SmartHome</string>
+    <string name="app_subtitle">Haz login. Si aún no tienes cuenta, registrate</string>
+    <!-- HOME -->
+    <string name="select_city">Selecciona tu ciudad</string>
+    <string name="your_home">Tu casa</string>
 
     <!-- Buttons -->
     <string name="login">Login</string>
     <string name="register">Registro</string>
+    <string name="btn_city">Establecer</string>
 
     <!-- Fields -->
     <string name="email_field">Email</string>
     <string name="password_field">Contraseña</string>
+    <string name="title_activity_maps">Map</string>
+
 </resources>

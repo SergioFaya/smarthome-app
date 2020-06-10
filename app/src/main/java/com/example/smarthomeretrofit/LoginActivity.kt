@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.smarthomeretrofit.model.User
@@ -45,27 +46,43 @@ class LoginActivity : AppCompatActivity() {
             };
 
             btnRegister.setOnClickListener {
-                goToRegister()
+                createUser(emailEditText.text.toString(), passwordEditText.text.toString())
             };
         }
     }
 
 
     private fun loginUser(email: String, password: String) {
+        validateUserAndPass(email, password)
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = auth.currentUser
-                    authorize();
-                } else {
-                    Toast.makeText(
-                        this,
-                        "La cuenta para ese usuario y contraseña no existe.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+            .addOnSuccessListener {
+                // Sign in success, update UI with the signed-in user's information
+                val user = auth.currentUser
+                authorize();
             }
+            .addOnCanceledListener {
+                Toast.makeText(
+                    this,
+                    "La cuenta para ese usuario y contraseña no existe.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+    }
+
+    private fun validateUserAndPass(email: String, password: String) {
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "El campo usuario está vacío", Toast.LENGTH_LONG).show()
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "El campo password está vacío", Toast.LENGTH_LONG).show()
+        }
+
+        if (password.length < 6) {
+            Toast.makeText(this, "El campo password debe tener 6 caracteres", Toast.LENGTH_LONG)
+                .show()
+        }
+
     }
 
     private fun authorize() {
@@ -74,9 +91,18 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun goToRegister() {
-        finish()
-        val intent = Intent(this, RegisterActivity::class.java)
-        startActivity(intent)
+    private fun createUser(email: String, password: String) {
+        validateUserAndPass(email, password)
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnSuccessListener {
+                authorize()
+            }
+            .addOnCanceledListener {
+                Toast.makeText(
+                    this,
+                    "No se ha podido crear el usuario. Ha usado ese email para otra cuenta?",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
     }
 }
