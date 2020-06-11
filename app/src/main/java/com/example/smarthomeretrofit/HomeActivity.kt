@@ -1,5 +1,6 @@
 package com.example.smarthomeretrofit
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -50,6 +51,12 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
                 requestWeatherInfo();
             }
         }
+
+        btnHistory.setOnClickListener {
+            val intent = Intent(this, HistoryWeatherActivity::class.java)
+            startActivity(intent)
+        }
+
         // added reference to context
         self = this;
     }

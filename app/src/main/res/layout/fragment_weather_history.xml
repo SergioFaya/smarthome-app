@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorLightGray"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/temperatureLabel"
+            android:layout_width="294dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="@string/temperature_field"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/temperatureField"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="20/05/2020 12:20"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/pressureLabel"
+            android:layout_width="294dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="@string/humidity_field"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/pressureField"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="20/05/2020 12:20"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/humidityLabel"
+            android:layout_width="294dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="@string/pressure_field"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/humidityField"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="20/05/2020 12:20"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider7"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/skyLabel"
+            android:layout_width="294dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="@string/city_field"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+
+        <View
+            android:id="@+id/divider8"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/skyField"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="20/05/2020 12:20"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/cityLabel"
+            android:layout_width="294dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="@string/sky_field"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+
+        <View
+            android:id="@+id/divider10"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/cityField"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="20/05/2020 12:20"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider12"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dateLabel"
+            android:layout_width="294dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="@string/date_field"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+
+        <View
+            android:id="@+id/divider11"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/dateField"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="2dp"
+            android:text="20/05/2020 12:20"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/text" />
+    </LinearLayout>
+
+</LinearLayout>

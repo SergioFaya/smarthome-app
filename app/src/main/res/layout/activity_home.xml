@@ -93,10 +93,17 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="245dp"
+        android:layout_height="215dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btnHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="@string/temperature_history" />
 
 </LinearLayout>

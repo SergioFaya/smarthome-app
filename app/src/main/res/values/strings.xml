@@ -18,5 +18,16 @@
     <string name="email_field">Email</string>
     <string name="password_field">Contraseña</string>
     <string name="title_activity_maps">Map</string>
+    <string name="temperature_history">Historial</string>
+
+
+    <!-- Fragment -->
+    <string name="temperature_field">Temperatura:</string>
+    <string name="humidity_field">Humedad:</string>
+    <string name="pressure_field">Presión:</string>
+    <string name="city_field">Ciudad:</string>
+    <string name="sky_field">Cielo:</string>
+    <string name="date_field">Fecha:</string>
+
 
 </resources>
