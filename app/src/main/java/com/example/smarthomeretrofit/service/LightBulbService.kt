@@ -8,22 +8,22 @@ import retrofit2.http.Body
 import retrofit2.http.PUT
 
 
-interface LightBulbInterface {
+interface LightBulbService {
     // https://smarthome-master.herokuapp.com/
 
-    @PUT("ring/on")
+    @PUT("on")
     fun lampOn(): Call<LightResponse>;
 
-    @PUT("ring/off")
+    @PUT("off")
     fun lampOff(): Call<LightResponse>;
 
-    @PUT("ring/color")
+    @PUT("color")
     fun setLampColor(@Body color: Color): Call<LightResponse>;
 
-    @PUT("ring/fade")
+    @PUT("fade")
     fun setLampFade(@Body fade: Fade): Call<LightResponse>;
 
-    @PUT("ring/rainbow")
+    @PUT("rainbow")
     fun setLampRainbow(): Call<LightResponse>;
-    
+
 }

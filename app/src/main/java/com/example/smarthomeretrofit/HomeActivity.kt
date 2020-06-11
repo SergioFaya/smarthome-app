@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.smarthomeretrofit.model.weather.WeatherResponse
-import com.example.smarthomeretrofit.service.WeatherService
+import com.example.smarthomeretrofit.service.ws.WeatherRestService
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -16,19 +16,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_home.*
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
-
-    private val appId = "d307a57cbe751709269280ea4f1b5527";
-    private val units = "metric"
-    private val lang = "es"
 
     private lateinit var mMap: GoogleMap
     private var vehicleMarker: Marker? = null
@@ -37,8 +30,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
-
+        
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -76,38 +68,29 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     fun requestWeatherInfo() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://api.openweathermap.org/data/2.5/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(OkHttpClient())
-            .build()
-
-        val service: WeatherService = retrofit.create(WeatherService::class.java)
-
-        val call = service.getWeatherInCity(editCity.text.toString(), appId, lang, units)
-
-        call.enqueue(object : Callback<WeatherResponse> {
-            override fun onFailure(call: Call<WeatherResponse>?, t: Throwable?) {
-                Log.v("retrofit open weather", "call failed")
-            }
-
-            override fun onResponse(
-                call: Call<WeatherResponse>?,
-                response: Response<WeatherResponse>?
-            ) {
-                Log.v("retrofit open weather", "call success")
-                if (response!!.isSuccessful) {
-                    displayWeatherInfo(response.body()!!);
-                } else {
-                    Toast.makeText(
-                        self,
-                        "Ciudad no encontrada. Utilizamos datos de openWeatherApp, por favor compruebe que la ciudad se encuentre registrada o use otra.",
-                        Toast.LENGTH_LONG
-                    ).show();
+        WeatherRestService.getWeatherInCity(editCity.text.toString())
+            .enqueue(object : Callback<WeatherResponse> {
+                override fun onFailure(call: Call<WeatherResponse>?, t: Throwable?) {
+                    Log.v("retrofit open weather", "call failed")
                 }
-            }
 
-        })
+                override fun onResponse(
+                    call: Call<WeatherResponse>?,
+                    response: Response<WeatherResponse>?
+                ) {
+                    Log.v("retrofit open weather", "call success")
+                    if (response!!.isSuccessful) {
+                        displayWeatherInfo(response.body()!!);
+                    } else {
+                        Toast.makeText(
+                            self,
+                            "Ciudad no encontrada. Utilizamos datos de openWeatherApp, por favor compruebe que la ciudad se encuentre registrada o use otra.",
+                            Toast.LENGTH_LONG
+                        ).show();
+                    }
+                }
+
+            })
     }
 
     private fun displayWeatherInfo(response: WeatherResponse) {
