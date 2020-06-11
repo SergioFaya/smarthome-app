@@ -1,5 +1,6 @@
 package com.example.smarthomeretrofit.model
 
+import com.example.smarthomeretrofit.model.weather.WeatherResponse
 import java.text.SimpleDateFormat
 import java.util.*
 

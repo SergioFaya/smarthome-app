@@ -1,6 +1,6 @@
 package com.example.smarthomeretrofit.service
 
-import com.example.smarthomeretrofit.model.WeatherResponse
+import com.example.smarthomeretrofit.model.weather.WeatherResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -12,10 +12,10 @@ interface WeatherService {
 
     @GET("weather")
     fun getWeatherInCity(
-        @Query("q") city: String?,
+        @Query("q") city: String,
         @Query("appid") appId: String,
         @Query("lang") lang: String,
         @Query("units") units: String
     ): Call<WeatherResponse>
-    
+
 }

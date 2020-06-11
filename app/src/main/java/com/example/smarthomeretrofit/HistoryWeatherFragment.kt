@@ -9,7 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smarthomeretrofit.model.*
+import com.example.smarthomeretrofit.model.SmartHomeWeather
+import com.example.smarthomeretrofit.model.weather.*
 
 class HistoryWeatherFragment : Fragment() {
 
@@ -45,7 +46,14 @@ class HistoryWeatherFragment : Fragment() {
 
 
         var weathers = ArrayList<Weather>()
-        weathers.add(Weather(description = "Nubes", id = 1, icon = "01", main = "Clouds"))
+        weathers.add(
+            Weather(
+                description = "Nubes",
+                id = 1,
+                icon = "01",
+                main = "Clouds"
+            )
+        )
         list.add(
             SmartHomeWeather(
                 WeatherResponse(
@@ -61,14 +69,26 @@ class HistoryWeatherFragment : Fragment() {
                     weather = weathers,
                     clouds = Clouds(1),
                     cod = 1,
-                    coord = Coord(.0, .0),
+                    coord = Coord(
+                        .0,
+                        .0
+                    ),
                     id = 1,
                     name = "Madrid",
-                    sys = Sys(country = "Spain", id = 1, sunrise = 1, sunset = 1, type = 1),
+                    sys = Sys(
+                        country = "Spain",
+                        id = 1,
+                        sunrise = 1,
+                        sunset = 1,
+                        type = 1
+                    ),
                     dt = 1,
                     timezone = 1,
                     visibility = 1,
-                    wind = Wind(deg = 1, speed = .0)
+                    wind = Wind(
+                        deg = 1,
+                        speed = .0
+                    )
                 )
 
 
@@ -89,14 +109,26 @@ class HistoryWeatherFragment : Fragment() {
                     weather = weathers,
                     clouds = Clouds(1),
                     cod = 1,
-                    coord = Coord(.0, .0),
+                    coord = Coord(
+                        .0,
+                        .0
+                    ),
                     id = 1,
                     name = "Madrid",
-                    sys = Sys(country = "Spain", id = 1, sunrise = 1, sunset = 1, type = 1),
+                    sys = Sys(
+                        country = "Spain",
+                        id = 1,
+                        sunrise = 1,
+                        sunset = 1,
+                        type = 1
+                    ),
                     dt = 1,
                     timezone = 1,
                     visibility = 1,
-                    wind = Wind(deg = 1, speed = .0)
+                    wind = Wind(
+                        deg = 1,
+                        speed = .0
+                    )
                 )
 
 
@@ -117,14 +149,26 @@ class HistoryWeatherFragment : Fragment() {
                     weather = weathers,
                     clouds = Clouds(1),
                     cod = 1,
-                    coord = Coord(.0, .0),
+                    coord = Coord(
+                        .0,
+                        .0
+                    ),
                     id = 1,
                     name = "Madrid",
-                    sys = Sys(country = "Spain", id = 1, sunrise = 1, sunset = 1, type = 1),
+                    sys = Sys(
+                        country = "Spain",
+                        id = 1,
+                        sunrise = 1,
+                        sunset = 1,
+                        type = 1
+                    ),
                     dt = 1,
                     timezone = 1,
                     visibility = 1,
-                    wind = Wind(deg = 1, speed = .0)
+                    wind = Wind(
+                        deg = 1,
+                        speed = .0
+                    )
                 )
 
 
@@ -145,14 +189,26 @@ class HistoryWeatherFragment : Fragment() {
                     weather = weathers,
                     clouds = Clouds(1),
                     cod = 1,
-                    coord = Coord(.0, .0),
+                    coord = Coord(
+                        .0,
+                        .0
+                    ),
                     id = 1,
                     name = "Madrid",
-                    sys = Sys(country = "Spain", id = 1, sunrise = 1, sunset = 1, type = 1),
+                    sys = Sys(
+                        country = "Spain",
+                        id = 1,
+                        sunrise = 1,
+                        sunset = 1,
+                        type = 1
+                    ),
                     dt = 1,
                     timezone = 1,
                     visibility = 1,
-                    wind = Wind(deg = 1, speed = .0)
+                    wind = Wind(
+                        deg = 1,
+                        speed = .0
+                    )
                 )
 
 

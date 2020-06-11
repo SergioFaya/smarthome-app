@@ -6,7 +6,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.smarthomeretrofit.model.WeatherResponse
+import com.example.smarthomeretrofit.model.weather.WeatherResponse
 import com.example.smarthomeretrofit.service.WeatherService
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
