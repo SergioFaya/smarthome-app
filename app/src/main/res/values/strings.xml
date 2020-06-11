@@ -28,9 +28,6 @@
     <string name="city_field">Ciudad:</string>
     <string name="sky_field">Cielo:</string>
     <string name="date_field">Fecha:</string>
-    <string name="title_activity_menu">MenuActivity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
 
 
 </resources>
