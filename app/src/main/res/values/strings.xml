@@ -28,6 +28,15 @@
     <string name="city_field">Ciudad:</string>
     <string name="sky_field">Cielo:</string>
     <string name="date_field">Fecha:</string>
+    <string name="title_activity_bottom_navigation">BottomNavigation</string>
+
+    <!-- Nav -->
+    <string name="title_home">Inicio</string>
+    <string name="title_dashboard">Historial</string>
+    <string name="title_notifications">Dispositivos</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

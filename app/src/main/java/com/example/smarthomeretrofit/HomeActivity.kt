@@ -30,7 +30,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -49,6 +49,9 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
             startActivity(intent)
         }
 
+        btnDevices.setOnClickListener {
+
+        }
         // added reference to context
         self = this;
     }
