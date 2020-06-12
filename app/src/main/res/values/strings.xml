@@ -22,9 +22,9 @@
 
 
     <!-- Fragment -->
-    <string name="temperature_field">Temperatura:</string>
-    <string name="humidity_field">Humedad:</string>
-    <string name="pressure_field">Presión:</string>
+    <string name="temperature_field">Temperatura (ºC):</string>
+    <string name="humidity_field">Humedad (%):</string>
+    <string name="pressure_field">Presión (Pa):</string>
     <string name="city_field">Ciudad:</string>
     <string name="sky_field">Cielo:</string>
     <string name="date_field">Fecha:</string>
@@ -52,4 +52,8 @@
     <string name="auto_mode">Modo Auto (basado en el tiempo)</string>
     <string name="map_advice">Información obtenida de openweatherapp cada 10 minutos</string>
 
+
+    <string name="temperature_button">Temp.</string>
+    <string name="humidity_button">Humedad</string>
+    <string name="pressure_button">Presión</string>
 </resources>

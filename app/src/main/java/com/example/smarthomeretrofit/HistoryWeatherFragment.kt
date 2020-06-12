@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smarthomeretrofit.model.SmartHomeWeather
-import com.example.smarthomeretrofit.model.weather.*
+import com.example.smarthomeretrofit.model.SmartHomeWeatherHistory
+import com.example.smarthomeretrofit.model.enum.Keys
 
 class HistoryWeatherFragment : Fragment() {
 
@@ -39,182 +40,23 @@ class HistoryWeatherFragment : Fragment() {
         return view
     }
 
-    fun getDataList(): List<SmartHomeWeather> {
-
-        // TODO: OBTENER LISTADO
-        var list = ArrayList<SmartHomeWeather>();
-
-
-        var weathers = ArrayList<Weather>()
-        weathers.add(
-            Weather(
-                description = "Nubes",
-                id = 1,
-                icon = "01",
-                main = "Clouds"
+    fun getDataList(): ArrayList<SmartHomeWeather> {
+        val jsonHistory =
+            activity!!.getSharedPreferences(
+                Keys.USER_SHARED_PREFERENCES.value,
+                Context.MODE_PRIVATE
             )
-        )
-        list.add(
-            SmartHomeWeather(
-                WeatherResponse(
-                    base = "stations",
-                    main = Main(
-                        temp = 25.0,
-                        humidity = 35,
-                        pressure = 100,
-                        feels_like = .0,
-                        temp_max = .0,
-                        temp_min = .0
-                    ),
-                    weather = weathers,
-                    clouds = Clouds(1),
-                    cod = 1,
-                    coord = Coord(
-                        .0,
-                        .0
-                    ),
-                    id = 1,
-                    name = "Madrid",
-                    sys = Sys(
-                        country = "Spain",
-                        id = 1,
-                        sunrise = 1,
-                        sunset = 1,
-                        type = 1
-                    ),
-                    dt = 1,
-                    timezone = 1,
-                    visibility = 1,
-                    wind = Wind(
-                        deg = 1,
-                        speed = .0
-                    )
-                )
+                ?.getString(Keys.HISTORY_SMARTHOME.value, null)
 
+        if (jsonHistory != null) {
+            val history = SmartHomeWeatherHistory()
+            history.deserialize(jsonHistory)
 
-            )
-        )
-        list.add(
-            SmartHomeWeather(
-                WeatherResponse(
-                    base = "stations",
-                    main = Main(
-                        temp = 25.0,
-                        humidity = 35,
-                        pressure = 100,
-                        feels_like = .0,
-                        temp_max = .0,
-                        temp_min = .0
-                    ),
-                    weather = weathers,
-                    clouds = Clouds(1),
-                    cod = 1,
-                    coord = Coord(
-                        .0,
-                        .0
-                    ),
-                    id = 1,
-                    name = "Madrid",
-                    sys = Sys(
-                        country = "Spain",
-                        id = 1,
-                        sunrise = 1,
-                        sunset = 1,
-                        type = 1
-                    ),
-                    dt = 1,
-                    timezone = 1,
-                    visibility = 1,
-                    wind = Wind(
-                        deg = 1,
-                        speed = .0
-                    )
-                )
-
-
-            )
-        )
-        list.add(
-            SmartHomeWeather(
-                WeatherResponse(
-                    base = "stations",
-                    main = Main(
-                        temp = 25.0,
-                        humidity = 35,
-                        pressure = 100,
-                        feels_like = .0,
-                        temp_max = .0,
-                        temp_min = .0
-                    ),
-                    weather = weathers,
-                    clouds = Clouds(1),
-                    cod = 1,
-                    coord = Coord(
-                        .0,
-                        .0
-                    ),
-                    id = 1,
-                    name = "Madrid",
-                    sys = Sys(
-                        country = "Spain",
-                        id = 1,
-                        sunrise = 1,
-                        sunset = 1,
-                        type = 1
-                    ),
-                    dt = 1,
-                    timezone = 1,
-                    visibility = 1,
-                    wind = Wind(
-                        deg = 1,
-                        speed = .0
-                    )
-                )
-
-
-            )
-        )
-        list.add(
-            SmartHomeWeather(
-                WeatherResponse(
-                    base = "stations",
-                    main = Main(
-                        temp = 25.0,
-                        humidity = 35,
-                        pressure = 100,
-                        feels_like = .0,
-                        temp_max = .0,
-                        temp_min = .0
-                    ),
-                    weather = weathers,
-                    clouds = Clouds(1),
-                    cod = 1,
-                    coord = Coord(
-                        .0,
-                        .0
-                    ),
-                    id = 1,
-                    name = "Madrid",
-                    sys = Sys(
-                        country = "Spain",
-                        id = 1,
-                        sunrise = 1,
-                        sunset = 1,
-                        type = 1
-                    ),
-                    dt = 1,
-                    timezone = 1,
-                    visibility = 1,
-                    wind = Wind(
-                        deg = 1,
-                        speed = .0
-                    )
-                )
-
-
-            )
-        )
-        return list;
+            if (history != null) {
+                return history.weathers!!
+            }
+        }
+        return ArrayList<SmartHomeWeather>()
     }
 
     override fun onAttach(context: Context) {

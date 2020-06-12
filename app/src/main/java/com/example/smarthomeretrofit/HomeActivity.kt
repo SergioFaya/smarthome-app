@@ -1,6 +1,7 @@
 package com.example.smarthomeretrofit
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -9,6 +10,9 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.smarthomeretrofit.model.SmartHomeWeather
+import com.example.smarthomeretrofit.model.SmartHomeWeatherHistory
+import com.example.smarthomeretrofit.model.enum.Keys
 import com.example.smarthomeretrofit.model.weather.WeatherResponse
 import com.example.smarthomeretrofit.service.ws.WeatherRestService
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -43,7 +47,8 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
                 ) {
                     Log.v("retrofit open weather", "call success")
                     if (response!!.isSuccessful) {
-                        displayWeatherInfo(response.body()!!);
+                        displayWeatherInfo(response.body()!!)
+                        storeWeatherInSharedPreferences(response.body()!!)
                     } else {
                         Toast.makeText(
                             self,
@@ -65,11 +70,15 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        loadCityFromSharedPreferences()
+        requestWeatherInfo()
+        
         btnSelectCity.setOnClickListener {
             if (TextUtils.isEmpty(editCity.text.toString())) {
                 Toast.makeText(this, "El campo ciudad no puede estar vacío", Toast.LENGTH_SHORT)
                     .show()
             } else {
+                storeCityInSharedPreferences();
                 setUpUploadWeatherInfoPeriodically(requestWeatherInfo);
             }
         }
@@ -139,7 +148,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setHumidity(text: String) {
-        humidityLabel.text = "Humedad: " + text + " "
+        humidityLabel.text = "Humedad: " + text + "%"
     }
 
     private fun loadIcon(code: String) {
@@ -147,18 +156,63 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
         webView.loadUrl(url)
     }
 
+    private fun loadCityFromSharedPreferences() {
+        val sharedPreferences =
+            getSharedPreferences(Keys.USER_SHARED_PREFERENCES.value, Context.MODE_PRIVATE)
+        val city: String? = sharedPreferences.getString(Keys.CITY_SMARTHOME.value, null)
+        if (city != null) {
+            editCity.setText(city)
+        }
+    }
+
+    private fun storeCityInSharedPreferences() {
+        val sharedPreferences =
+            getSharedPreferences(Keys.USER_SHARED_PREFERENCES.value, Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString(Keys.CITY_SMARTHOME.value, editCity.text.toString())
+            .commit()
+    }
+
+    private fun storeWeatherInSharedPreferences(weatherResponse: WeatherResponse): SmartHomeWeatherHistory {
+        var currentWeatherHistory = getDataList()
+        currentWeatherHistory.add(SmartHomeWeather(weatherResponse))
+
+        var weatherHistory = SmartHomeWeatherHistory()
+        weatherHistory.weathers = currentWeatherHistory
+
+        var json = weatherHistory.serialize()
+
+        getSharedPreferences(Keys.USER_SHARED_PREFERENCES.value, Context.MODE_PRIVATE).edit()
+            .putString(Keys.HISTORY_SMARTHOME.value, json).commit();
+        return weatherHistory
+    }
+
+    fun getDataList(): ArrayList<SmartHomeWeather> {
+        val jsonHistory =
+            getSharedPreferences(Keys.USER_SHARED_PREFERENCES.value, Context.MODE_PRIVATE)
+                ?.getString(Keys.HISTORY_SMARTHOME.value, null)
+
+        if (jsonHistory != null) {
+            val history = SmartHomeWeatherHistory()
+            history.deserialize(jsonHistory)
+
+            if (history != null) {
+                return history.weathers!!
+            }
+        }
+        return ArrayList<SmartHomeWeather>()
+    }
 
     private fun setUpUploadWeatherInfoPeriodically(task: () -> Unit) {
         val handler = Handler()
         val delay = 600000L //10 minutes in milliseconds
         handler.removeCallbacksAndMessages(null);
+        // execute once and stablish the interval
+        task();
         handler.postDelayed(object : Runnable {
             override fun run() {
                 task();
                 handler.postDelayed(this, delay)
             }
         }, delay)
-
-
     }
 }
