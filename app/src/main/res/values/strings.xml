@@ -50,5 +50,6 @@
     <string name="confirm">Guardar</string>
     <string name="rest_simulator">Abrir Estado Rest (simulación)</string>
     <string name="auto_mode">Modo Auto (basado en el tiempo)</string>
+    <string name="map_advice">Información obtenida de openweatherapp cada 10 minutos</string>
 
 </resources>

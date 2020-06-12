@@ -83,11 +83,11 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_weight="0"
-        android:text="Información obtenida de openweatherapp" />
+        android:text="@string/map_advice" />
 
     <fragment
         android:id="@+id/map"

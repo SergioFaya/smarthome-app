@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
@@ -29,6 +30,31 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     private var vehicleMarker: Marker? = null
     private lateinit var self: AppCompatActivity
 
+    var requestWeatherInfo = {
+        WeatherRestService.getWeatherInCity(editCity.text.toString())
+            .enqueue(object : Callback<WeatherResponse> {
+                override fun onFailure(call: Call<WeatherResponse>?, t: Throwable?) {
+                    Log.v("retrofit open weather", "call failed")
+                }
+
+                override fun onResponse(
+                    call: Call<WeatherResponse>?,
+                    response: Response<WeatherResponse>?
+                ) {
+                    Log.v("retrofit open weather", "call success")
+                    if (response!!.isSuccessful) {
+                        displayWeatherInfo(response.body()!!);
+                    } else {
+                        Toast.makeText(
+                            self,
+                            "Ciudad no encontrada. Utilizamos datos de openWeatherApp, por favor compruebe que la ciudad se encuentre registrada o use otra.",
+                            Toast.LENGTH_LONG
+                        ).show();
+                    }
+                }
+            })
+    }
+
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +70,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
                 Toast.makeText(this, "El campo ciudad no puede estar vacío", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                requestWeatherInfo();
+                setUpUploadWeatherInfoPeriodically(requestWeatherInfo);
             }
         }
 
@@ -75,31 +101,6 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    fun requestWeatherInfo() {
-        WeatherRestService.getWeatherInCity(editCity.text.toString())
-            .enqueue(object : Callback<WeatherResponse> {
-                override fun onFailure(call: Call<WeatherResponse>?, t: Throwable?) {
-                    Log.v("retrofit open weather", "call failed")
-                }
-
-                override fun onResponse(
-                    call: Call<WeatherResponse>?,
-                    response: Response<WeatherResponse>?
-                ) {
-                    Log.v("retrofit open weather", "call success")
-                    if (response!!.isSuccessful) {
-                        displayWeatherInfo(response.body()!!);
-                    } else {
-                        Toast.makeText(
-                            self,
-                            "Ciudad no encontrada. Utilizamos datos de openWeatherApp, por favor compruebe que la ciudad se encuentre registrada o use otra.",
-                            Toast.LENGTH_LONG
-                        ).show();
-                    }
-                }
-
-            })
-    }
 
     private fun displayWeatherInfo(response: WeatherResponse) {
         if (mMap != null) {
@@ -144,5 +145,20 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun loadIcon(code: String) {
         val url = "http://openweathermap.org/img/wn/" + code + "@2x.png"
         webView.loadUrl(url)
+    }
+
+
+    private fun setUpUploadWeatherInfoPeriodically(task: () -> Unit) {
+        val handler = Handler()
+        val delay = 600000L //10 minutes in milliseconds
+        handler.removeCallbacksAndMessages(null);
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                task();
+                handler.postDelayed(this, delay)
+            }
+        }, delay)
+
+
     }
 }
