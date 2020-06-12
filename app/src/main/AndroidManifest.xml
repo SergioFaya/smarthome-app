@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_house_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HistoryWeatherActivity"></activity>
+        <activity android:name=".DevicesActivity"></activity>
+        <activity android:name=".HistoryWeatherActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

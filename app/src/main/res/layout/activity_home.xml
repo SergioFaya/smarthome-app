@@ -107,16 +107,16 @@
 
         <Button
             android:id="@+id/btnHistory"
-            android:layout_width="214dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:layout_weight="1"
             android:text="@string/title_dashboard" />
 
         <Button
             android:id="@+id/btnDevices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:layout_weight="1"
             android:text="@string/title_notifications" />
     </LinearLayout>
 

@@ -1,6 +1,6 @@
-package com.example.smarthomeretrofit.model.lightbulb.response
+package com.example.smarthomeretrofit.model.lightbulb
 
-data class LightResponse(
+data class Light(
     val color: Color,
     val fade: Fade,
     val rainbow: Boolean,

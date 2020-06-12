@@ -17,11 +17,13 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        auth = FirebaseAuth.getInstance()
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
+        auth = FirebaseAuth.getInstance()
         autoLogin();
     }
 

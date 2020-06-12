@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- cambiar por url de la lampara en producción -->
+    <string name="base_url_device">https://smarthome-master.herokuapp.com</string>
+
+</resources>

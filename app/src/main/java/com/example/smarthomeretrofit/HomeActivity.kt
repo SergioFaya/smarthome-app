@@ -1,6 +1,8 @@
 package com.example.smarthomeretrofit
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -27,9 +29,11 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     private var vehicleMarker: Marker? = null
     private lateinit var self: AppCompatActivity
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -50,7 +54,8 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         btnDevices.setOnClickListener {
-
+            val intent = Intent(this, DevicesActivity::class.java)
+            startActivity(intent)
         }
         // added reference to context
         self = this;

@@ -1,21 +1,26 @@
 package com.example.smarthomeretrofit.service.ws
 
-import com.example.smarthomeretrofit.model.lightbulb.response.Color
-import com.example.smarthomeretrofit.model.lightbulb.response.Fade
-import com.example.smarthomeretrofit.model.lightbulb.response.LightResponse
+import android.content.Context
+import com.example.smarthomeretrofit.R
+import com.example.smarthomeretrofit.model.lightbulb.Color
+import com.example.smarthomeretrofit.model.lightbulb.Fade
+import com.example.smarthomeretrofit.model.lightbulb.Light
 import com.example.smarthomeretrofit.service.LightBulbService
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 object LightBulbRestService {
 
-    private val URL = "https://smarthome-master.herokuapp.com/ring/"
-    
-    private fun setUpRetrofit(): LightBulbService {
+    private val URL = "/ring/"
+
+    private fun setUpRetrofit(context: Context): LightBulbService {
+        var baseUrl = context.getString(R.string.base_url_device)
+
         val retrofit = Retrofit.Builder()
-            .baseUrl(URL)
+            .baseUrl(baseUrl + URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(OkHttpClient())
             .build()
@@ -24,24 +29,24 @@ object LightBulbRestService {
         return service;
     }
 
-    fun lampOn(): Call<LightResponse> {
-        return setUpRetrofit().lampOn();
+    fun lampOn(context: Context): Call<Light> {
+        return setUpRetrofit(context).lampOn();
     }
 
-    fun lampOff(): Call<LightResponse> {
-        return setUpRetrofit().lampOff();
+    fun lampOff(context: Context): Call<Light> {
+        return setUpRetrofit(context).lampOff();
     }
 
-    fun setLampColor(color: Color): Call<LightResponse> {
-        return setUpRetrofit().setLampColor(color)
+    fun setLampColor(context: Context, color: Color): Call<Light> {
+        return setUpRetrofit(context).setLampColor(color)
     }
 
-    fun setLampFade(fade: Fade): Call<LightResponse> {
-        return setUpRetrofit().setLampFade(fade)
+    fun setLampFade(context: Context, fade: Fade): Call<Light> {
+        return setUpRetrofit(context).setLampFade(fade)
     }
 
-    fun setLampRainbow(): Call<LightResponse> {
-        return setUpRetrofit().setLampRainbow()
+    fun setLampRainbow(context: Context): Call<Light> {
+        return setUpRetrofit(context).setLampRainbow()
     }
 
 

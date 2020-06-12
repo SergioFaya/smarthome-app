@@ -35,8 +35,20 @@
     <string name="title_dashboard">Historial</string>
     <string name="title_notifications">Dispositivos</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="speaker">Altavoz</string>
+    <string name="beep">Pitido</string>
+    <string name="melody">Melodía</string>
+
+    <string name="lights">Luces</string>
+    <string name="lights_on">On</string>
+    <string name="lights_off">Off</string>
+    <string name="lights_rainbow">Arcoiris</string>
+    <string name="lights_change_color">Cambiar Color</string>
+    <string name="lights_gradient">Gradiente</string>
+
+    <string name="confirm">Guardar</string>
+    <string name="rest_simulator">Abrir Estado Rest (simulación)</string>
+    <string name="auto_mode">Modo Auto (basado en el tiempo)</string>
 
 </resources>
