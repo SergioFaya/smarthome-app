@@ -1,6 +1,7 @@
 package com.example.smarthomeretrofit
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
@@ -8,14 +9,15 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.smarthomeretrofit.model.SmartHomeWeather
+import com.example.smarthomeretrofit.model.enum.Keys
 import com.example.smarthomeretrofit.model.lightbulb.Color
 import com.example.smarthomeretrofit.model.lightbulb.Fade
 import com.example.smarthomeretrofit.model.lightbulb.Light
 import com.example.smarthomeretrofit.model.speaker.Speaker
-import com.example.smarthomeretrofit.model.weather.*
+import com.example.smarthomeretrofit.model.weather.WeatherResponse
 import com.example.smarthomeretrofit.service.ws.LightBulbRestService
 import com.example.smarthomeretrofit.service.ws.SpeakerRestService
+import com.example.smarthomeretrofit.service.ws.WeatherRestService
 import kotlinx.android.synthetic.main.activity_devices.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -396,46 +398,75 @@ class DevicesActivity : AppCompatActivity() {
 
     private fun setUpAutoButton() {
         btnAutoMode.setOnClickListener {
-            it.isEnabled = false
-            var weather = getWeatherStatus()
 
-            if (weather.weather.main.temp < 15 && weather.weather.main.humidity < 35) {
-                Toast.makeText(this, "Frío seco. Luz azul y melodía 1", Toast.LENGTH_LONG).show()
-                setLampMode(blue, tone1)
-            } else if (weather.weather.main.temp < 15 && weather.weather.main.humidity >= 35) {
-                Toast.makeText(this, "Frío humedo. Luz azul y melodía 2", Toast.LENGTH_LONG).show()
-                setLampMode(blue, tone2)
-            } else if (weather.weather.main.temp >= 15 && weather.weather.main.temp < 22 && weather.weather.main.humidity < 35) {
-                Toast.makeText(
-                    this,
-                    "Temperatura Ambiente Seca. Luz amarilla y melodía 1",
-                    Toast.LENGTH_LONG
-                ).show()
-                setLampMode(yellow, tone1)
-            } else if (weather.weather.main.temp >= 15 && weather.weather.main.temp < 22 && weather.weather.main.humidity >= 35) {
-                Toast.makeText(
-                    this,
-                    "Temperatura Ambiente Humeda. Luz amarilla y melodía 2",
-                    Toast.LENGTH_LONG
-                ).show()
-                setLampMode(yellow, tone2)
-            } else if (weather.weather.main.temp >= 22 && weather.weather.main.humidity < 35) {
-                Toast.makeText(this, "Temperatura Cálida. Luz roja y melodía 1", Toast.LENGTH_LONG)
-                    .show()
-                setLampMode(red, tone1)
-            } else if (weather.weather.main.temp >= 22 && weather.weather.main.humidity >= 35) {
-                Toast.makeText(this, "Temperatura Cálida. Luz roja y melodía 2", Toast.LENGTH_LONG)
-                    .show()
-                setLampMode(red, tone2)
-            } else {
-                Toast.makeText(
-                    this,
-                    "No hay un modo establecido para el clima actual",
-                    Toast.LENGTH_LONG
-                )
-                    .show()
-            }
+
+            it.isEnabled = false
+
+            var city = getCity()
+            WeatherRestService.getWeatherInCity(city)
+                .enqueue(object : Callback<WeatherResponse> {
+                    override fun onFailure(call: Call<WeatherResponse>?, t: Throwable?) {
+                        Log.v("retrofit open weather", "call failed")
+                    }
+
+                    override fun onResponse(
+                        call: Call<WeatherResponse>?,
+                        response: Response<WeatherResponse>?
+                    ) {
+                        Log.v("retrofit open weather", "call success")
+                        if (response!!.isSuccessful) {
+                            var weather = response.body()
+                            autoLight(weather!!)
+
+                        } else {
+                            Toast.makeText(
+                                self,
+                                "Ciudad no encontrada. Utilizamos datos de openWeatherApp, por favor compruebe que la ciudad se encuentre registrada o use otra.",
+                                Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    }
+                })
             it.isEnabled = true
+        }
+    }
+
+    private fun autoLight(weather: WeatherResponse) {
+        if (weather.main.temp < 15 && weather.main.humidity < 35) {
+            Toast.makeText(this, "Frío seco. Luz azul y melodía 1", Toast.LENGTH_LONG).show()
+            setLampMode(blue, tone1)
+        } else if (weather.main.temp < 15 && weather.main.humidity >= 35) {
+            Toast.makeText(this, "Frío humedo. Luz azul y melodía 2", Toast.LENGTH_LONG).show()
+            setLampMode(blue, tone2)
+        } else if (weather.main.temp >= 15 && weather.main.temp < 22 && weather.main.humidity < 35) {
+            Toast.makeText(
+                this,
+                "Temperatura Ambiente Seca. Luz amarilla y melodía 1",
+                Toast.LENGTH_LONG
+            ).show()
+            setLampMode(yellow, tone1)
+        } else if (weather.main.temp >= 15 && weather.main.temp < 22 && weather.main.humidity >= 35) {
+            Toast.makeText(
+                this,
+                "Temperatura Ambiente Humeda. Luz amarilla y melodía 2",
+                Toast.LENGTH_LONG
+            ).show()
+            setLampMode(yellow, tone2)
+        } else if (weather.main.temp >= 22 && weather.main.humidity < 35) {
+            Toast.makeText(this, "Temperatura Cálida. Luz roja y melodía 1", Toast.LENGTH_LONG)
+                .show()
+            setLampMode(red, tone1)
+        } else if (weather.main.temp >= 22 && weather.main.humidity >= 35) {
+            Toast.makeText(this, "Temperatura Cálida. Luz roja y melodía 2", Toast.LENGTH_LONG)
+                .show()
+            setLampMode(red, tone2)
+        } else {
+            Toast.makeText(
+                this,
+                "No hay un modo establecido para el clima actual",
+                Toast.LENGTH_LONG
+            )
+                .show()
         }
     }
 
@@ -447,55 +478,14 @@ class DevicesActivity : AppCompatActivity() {
         thread.start()
     }
 
-    private fun getWeatherStatus(): SmartHomeWeather {
-        var weathers = ArrayList<Weather>()
-        weathers.add(
-            Weather(
-                description = "Nubes",
-                id = 1,
-                icon = "01",
-                main = "Clouds"
-            )
-        )
-        var weather = SmartHomeWeather(
-            WeatherResponse(
-                base = "stations",
-                main = Main(
-                    temp = 25.0,
-                    humidity = 35,
-                    pressure = 100,
-                    feels_like = .0,
-                    temp_max = .0,
-                    temp_min = .0
-                ),
-                weather = weathers,
-                clouds = Clouds(1),
-                cod = 1,
-                coord = Coord(
-                    .0,
-                    .0
-                ),
-                id = 1,
-                name = "Madrid",
-                sys = Sys(
-                    country = "Spain",
-                    id = 1,
-                    sunrise = 1,
-                    sunset = 1,
-                    type = 1
-                ),
-                dt = 1,
-                timezone = 1,
-                visibility = 1,
-                wind = Wind(
-                    deg = 1,
-                    speed = .0
-                )
-            )
 
-
-        )
-        return weather
+    private fun getCity(): String {
+        val sharedPreferences =
+            getSharedPreferences(Keys.USER_SHARED_PREFERENCES.value, Context.MODE_PRIVATE)
+        val city: String? = sharedPreferences.getString(Keys.CITY_SMARTHOME.value, null)
+        if (city != null) {
+            return city;
+        }
+        return "";
     }
-
 }

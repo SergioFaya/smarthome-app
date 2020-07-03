@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smarthomeretrofit.model.SmartHomeWeather
 import com.example.smarthomeretrofit.model.SmartHomeWeatherHistory
+import com.example.smarthomeretrofit.model.User
 import com.example.smarthomeretrofit.model.enum.Keys
 
 class HistoryWeatherFragment : Fragment() {
@@ -49,7 +50,7 @@ class HistoryWeatherFragment : Fragment() {
                 ?.getString(Keys.HISTORY_SMARTHOME.value, null)
 
         if (jsonHistory != null) {
-            val history = SmartHomeWeatherHistory()
+            val history = SmartHomeWeatherHistory(getUserFromSharedPreferences())
             history.deserialize(jsonHistory)
 
             if (history != null) {
@@ -57,6 +58,18 @@ class HistoryWeatherFragment : Fragment() {
             }
         }
         return ArrayList<SmartHomeWeather>()
+    }
+
+    private fun getUserFromSharedPreferences(): String {
+        val sharedPreferences =
+            activity!!.getSharedPreferences(
+                Keys.USER_SHARED_PREFERENCES.value,
+                Context.MODE_PRIVATE
+            )
+        val json: String? = sharedPreferences.getString(Keys.USER_SMARTHOME.value, "user")
+        var user = User()
+        user.deserialize(json)
+        return user.email;
     }
 
     override fun onAttach(context: Context) {

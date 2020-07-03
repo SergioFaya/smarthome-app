@@ -6,13 +6,17 @@ import java.util.*
 
 class SmartHomeWeather {
 
-    var datetime: Long
-    var date: String
-    var weather: WeatherResponse;
+    var datetime: Long? = null
+    lateinit var date: String
+    lateinit var weather: WeatherResponse;
 
-    constructor(weather: WeatherResponse) {
+    constructor() {
+
+    }
+
+    constructor(weather: WeatherResponse) : this() {
         this.datetime = currentTimeToLong();
-        this.date = convertLongToTime(this.datetime)
+        this.date = convertLongToTime(this.datetime!!)
         this.weather = weather
     }
 

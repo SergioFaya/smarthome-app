@@ -1,6 +1,6 @@
 package com.example.smarthomeretrofit.model.weather
 
-data class Coord(
-    val lat: Double,
-    val lon: Double
-)
+class Coord {
+    var lat: Double = 0.0
+    var lon: Double = 0.0
+}

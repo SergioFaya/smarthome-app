@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.smarthomeretrofit.firebase.DbManager
+import com.example.smarthomeretrofit.model.SmartHomeWeatherHistory
 import com.example.smarthomeretrofit.model.User
 import com.example.smarthomeretrofit.model.enum.Keys
 import com.google.firebase.auth.FirebaseAuth
@@ -60,7 +62,19 @@ class LoginActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 // Sign in success, update UI with the signed-in user's information
                 val user = auth.currentUser
-                authorize();
+
+                DbManager.getUserWeatherHistoryByEmail(email)
+                    .addOnSuccessListener { documents ->
+                        addUserToSharedPreferences(User(email, password))
+                        var history = documents.toObject(SmartHomeWeatherHistory::class.java)
+                        if (history != null) {
+                            addHistoryToSharedPreferences(history)
+                        }
+                        authorize();
+                    }
+                    .addOnFailureListener { exception ->
+                        var a = exception
+                    }
             }
             .addOnCanceledListener {
                 Toast.makeText(
@@ -69,6 +83,22 @@ class LoginActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             }
+    }
+
+    private fun addUserToSharedPreferences(user: User) {
+        val sharedPreferences =
+            getSharedPreferences(Keys.USER_SHARED_PREFERENCES.value, Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString(Keys.USER_SMARTHOME.value, user.serialize())
+            .apply()
+
+    }
+
+    private fun addHistoryToSharedPreferences(history: SmartHomeWeatherHistory) {
+        val sharedPreferences =
+            getSharedPreferences(Keys.USER_SHARED_PREFERENCES.value, Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString(Keys.HISTORY_SMARTHOME.value, history.serialize())
+            .apply()
+
     }
 
     private fun validateUserAndPass(email: String, password: String) {

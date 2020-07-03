@@ -1,9 +1,9 @@
 package com.example.smarthomeretrofit.model.weather
 
-data class Sys(
-    val country: String,
-    val id: Int,
-    val sunrise: Int,
-    val sunset: Int,
-    val type: Int
-)
+class Sys {
+    lateinit var country: String
+    var id: Int = 0
+    var sunrise: Int = 0
+    var sunset: Int = 0
+    var type: Int = 0
+}

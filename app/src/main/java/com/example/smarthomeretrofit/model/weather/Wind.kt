@@ -1,6 +1,8 @@
 package com.example.smarthomeretrofit.model.weather
 
-data class Wind(
-    val deg: Int,
-    val speed: Double
-)
+class Wind {
+    var deg: Int = 0
+    var speed: Double = 0.0
+
+    constructor() {}
+}

@@ -10,8 +10,10 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.smarthomeretrofit.firebase.DbManager
 import com.example.smarthomeretrofit.model.SmartHomeWeather
 import com.example.smarthomeretrofit.model.SmartHomeWeatherHistory
+import com.example.smarthomeretrofit.model.User
 import com.example.smarthomeretrofit.model.enum.Keys
 import com.example.smarthomeretrofit.model.weather.WeatherResponse
 import com.example.smarthomeretrofit.service.ws.WeatherRestService
@@ -48,7 +50,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
                     Log.v("retrofit open weather", "call success")
                     if (response!!.isSuccessful) {
                         displayWeatherInfo(response.body()!!)
-                        storeWeatherInSharedPreferences(response.body()!!)
+                        storeWeather(response.body()!!)
                     } else {
                         Toast.makeText(
                             self,
@@ -72,13 +74,13 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
 
         loadCityFromSharedPreferences()
         requestWeatherInfo()
-        
+
         btnSelectCity.setOnClickListener {
             if (TextUtils.isEmpty(editCity.text.toString())) {
                 Toast.makeText(this, "El campo ciudad no puede estar vacío", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                storeCityInSharedPreferences();
+                storeCitySharedPreferences();
                 setUpUploadWeatherInfoPeriodically(requestWeatherInfo);
             }
         }
@@ -165,25 +167,44 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun storeCityInSharedPreferences() {
+    private fun getUserFromSharedPreferences(): String {
+        val sharedPreferences =
+            getSharedPreferences(Keys.USER_SHARED_PREFERENCES.value, Context.MODE_PRIVATE)
+        val json: String? = sharedPreferences.getString(Keys.USER_SMARTHOME.value, "user")
+        var user = User()
+        user.deserialize(json)
+        return user.email;
+    }
+
+    private fun storeCitySharedPreferences() {
         val sharedPreferences =
             getSharedPreferences(Keys.USER_SHARED_PREFERENCES.value, Context.MODE_PRIVATE)
         sharedPreferences.edit().putString(Keys.CITY_SMARTHOME.value, editCity.text.toString())
             .commit()
     }
 
-    private fun storeWeatherInSharedPreferences(weatherResponse: WeatherResponse): SmartHomeWeatherHistory {
+    private fun storeWeather(weatherResponse: WeatherResponse): SmartHomeWeatherHistory {
         var currentWeatherHistory = getDataList()
         currentWeatherHistory.add(SmartHomeWeather(weatherResponse))
 
-        var weatherHistory = SmartHomeWeatherHistory()
+        var weatherHistory = SmartHomeWeatherHistory(getUserFromSharedPreferences())
         weatherHistory.weathers = currentWeatherHistory
+        storeWeatherFirebase(weatherHistory)
 
+        storeWeatherSharedPreferences(weatherHistory);
+        return weatherHistory
+    }
+
+    private fun storeWeatherFirebase(weatherHistory: SmartHomeWeatherHistory) {
+        DbManager.updateUserWeatherHistory(weatherHistory)
+    }
+
+    private fun storeWeatherSharedPreferences(weatherHistory: SmartHomeWeatherHistory) {
         var json = weatherHistory.serialize()
 
         getSharedPreferences(Keys.USER_SHARED_PREFERENCES.value, Context.MODE_PRIVATE).edit()
             .putString(Keys.HISTORY_SMARTHOME.value, json).commit();
-        return weatherHistory
+
     }
 
     fun getDataList(): ArrayList<SmartHomeWeather> {
@@ -192,7 +213,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
                 ?.getString(Keys.HISTORY_SMARTHOME.value, null)
 
         if (jsonHistory != null) {
-            val history = SmartHomeWeatherHistory()
+            val history = SmartHomeWeatherHistory(getUserFromSharedPreferences())
             history.deserialize(jsonHistory)
 
             if (history != null) {

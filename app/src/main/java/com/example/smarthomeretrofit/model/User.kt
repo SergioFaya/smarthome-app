@@ -6,7 +6,7 @@ class User(
     var email: String,
     var password: String
 ) {
-
+    
     constructor() : this("", "")
 
     fun serialize(): String {

@@ -2,12 +2,16 @@ package com.example.smarthomeretrofit.model
 
 import com.google.gson.Gson
 
-class SmartHomeWeatherHistory() {
+class SmartHomeWeatherHistory {
 
     var weathers = ArrayList<SmartHomeWeather>()
-    private var user: String = ""
+    var user: String = ""
 
-    constructor(email: String) : this() {
+    constructor() {
+
+    }
+
+    constructor(email: String) {
         setUsernameFromEmail(email)
     }
 
